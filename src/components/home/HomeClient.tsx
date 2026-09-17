@@ -3,8 +3,14 @@
 import { motion } from "motion/react"
 import {useRouter} from "next/navigation";
 import {ThemeToggle} from "@/components/theme-toggle";
+import {authClient} from "@/lib/auth-client";
 
-export const HomeClient = () => {
+interface Props {
+
+    userId: string | undefined;
+}
+
+export const HomeClient = ({userId} : Props) => {
 
     const router = useRouter();
 
@@ -17,9 +23,20 @@ export const HomeClient = () => {
           <div className="text-lg font-semibold tracking-tight">Support<span className="text-zinc-600">AI</span></div>
 
           <div className={"flex items-center gap-4"}>
-              <motion.button className="px-5 py-2 rounded-full bg-black text-white text-sm font-medium hover:bg-zinc-800 transition disabled:opacity-60 flex items-center gap-2" onClick={() => router.push("/sign-in")}>
-                  Get Started
-              </motion.button>
+              {
+                  userId ? (
+
+                      <motion.button className="px-5 py-2 rounded-full bg-black text-white text-sm font-medium hover:bg-zinc-800 transition disabled:opacity-60 flex items-center gap-2" onClick={() => authClient.signOut()}>
+                          sign out
+                      </motion.button>
+
+                  ) : (
+                      <motion.button className="px-5 py-2 rounded-full bg-black text-white text-sm font-medium hover:bg-zinc-800 transition disabled:opacity-60 flex items-center gap-2" onClick={() => router.push("/sign-in")}>
+                          get started
+                      </motion.button>
+                  )
+
+              }
 
               <ThemeToggle />
           </div>

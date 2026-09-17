@@ -84,24 +84,7 @@ export default function SignUpForm () {
                 fetchOptions: {
                     onSuccess: async () => {
 
-                        await authClient.emailOtp.sendVerificationOtp({
-                            email,
-                            type: "email-verification",
-                            fetchOptions: {
-                                onSuccess: () => {
-
-                                    toast.success("Sign up successful!. Check your email for an OTP to verify it. ")
-
-                                    router.push("/verify-request")
-                                },
-                                onError: (error) => {
-
-                                    setSignUpError(error.error.message);
-
-                                }
-                            }
-
-                        })
+                        router.push("/");
                     },
                     onError: (ctx) => {
                         router.push('/sign-up');

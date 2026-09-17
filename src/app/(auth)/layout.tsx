@@ -5,16 +5,26 @@ import Link from "next/link";
 import { ArrowLeftIcon } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import Image from "next/image";
+import {isUserLoggedIn} from "@/hooks/user/is-user-logged-in";
+import {redirect} from "next/navigation";
 
 interface Props {
     children: ReactNode;
 }
 
-export default function AuthLayout({ children }: Props) {
+export default async function AuthLayout({ children }: Props) {
+
+    const result = await isUserLoggedIn();
+
+    if(result.status === "success") {
+        redirect("/");
+    }
+
+
     return (
         <div className={"relative flex min-h-svh items-center justify-center"}>
             <Link
-                href={"/public"}
+                href={"/"}
                 className={buttonVariants({
                     variant: "outline",
                     className: "absolute top-4 left-4",

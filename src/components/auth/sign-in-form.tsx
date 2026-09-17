@@ -83,7 +83,7 @@ export default function SignInForm () {
                 password,
                 fetchOptions: {
                     onSuccess: () => {
-                        toast.success("Login successful!");
+
                         router.replace('/');
 
                     },

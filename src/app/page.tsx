@@ -1,9 +1,18 @@
+"use client"
+
 import {HomeClient} from "@/components/home/HomeClient";
+import {authClient} from "@/lib/auth-client";
 
 export default function Home() {
-  return (
+
+    const {
+        data: session,
+    } = authClient.useSession()
+
+
+    return (
     <>
-      <HomeClient/>
+      <HomeClient userId={session?.user?.id}/>
     </>
   )
 }
