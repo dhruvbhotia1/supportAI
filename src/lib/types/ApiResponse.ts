@@ -1,5 +1,11 @@
-export type ApiResponse = {
+export type ApiResponse<T = unknown> = {
 
-    status: "success" | "error";
+    status: "success";
     message: string;
+    data: T | null,
+} | {
+
+    status: "error",
+    errorMessage: string,
+    data: null | T,
 }

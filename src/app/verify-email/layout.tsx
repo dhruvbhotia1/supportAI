@@ -5,23 +5,16 @@ import Link from "next/link";
 import { ArrowLeftIcon } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import Image from "next/image";
-import {getServerSession} from "@/hooks/user/getServerSession";
-import {redirect} from "next/navigation";
+
 
 
 interface Props {
     children: ReactNode;
 }
 
-export default async function AuthLayout({ children }: Props) {
+export default async function VerifyLayout({ children }: Props) {
 
-    const data = await getServerSession();
-
-    if(data.status === "success") {
-
-        redirect("/");
-    }
-
+    
 
     return (
         <div className={"relative flex min-h-svh items-center justify-center"}>
@@ -37,7 +30,7 @@ export default async function AuthLayout({ children }: Props) {
             </Link>
             <div className={"flex w-full max-w-lg flex-col gap-6"}>
                 <Link href={"/public"} className={"flex items-center gap-2 self-center font-medium"}>
-                    <Image src={"./logo.svg"} alt={"logo"} height={40} width={40} />
+                    <Image src={"/logo.svg"} alt={"logo"} height={40} width={40} />
                     Support AI
                 </Link>
                 {children}
