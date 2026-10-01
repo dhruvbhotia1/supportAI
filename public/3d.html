@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium WebGL Particle Graphic</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #030308; /* Deep dark near-black background */
+            font-family: 'Inter', sans-serif;
+        }
+
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+        }
+
+        /* Overlay for a premium landing page feel */
+        .overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            text-align: center;
+            color: white;
+            pointer-events: none; /* Let clicks pass through to canvas if needed */
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 300;
+            letter-spacing: 4px;
+            margin: 0;
+            background: linear-gradient(90deg, #00f0ff, #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0.9;
+        }
+
+        p {
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: #a0a0b0;
+            margin-top: 10px;
+        }
+    </style>
+    <!-- Load Three.js from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+
+    <div id="canvas-container"></div>
+    
+    <div class="overlay">
+        <h1>NEBULA</h1>
+        <p>INTERACTIVE WEBGL EXPERIENCE</p>
+    </div>
+
+    <script>
+        let scene, camera, renderer, particles;
+        let mouseX = 0;
+        let mouseY = 0;
+        
+        // Target coordinates for smooth parallax damping
+        let targetX = 0;
+        let targetY = 0;
+
+        const windowHalfX = window.innerWidth / 2;
+        const windowHalfY = window.innerHeight / 2;
+
+        init();
+        animate();
+
+        function init() {
+            const container = document.getElementById('canvas-container');
+
+            // 1. Setup Scene
+            scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x030308, 0.001); // Blend edges into background
+
+            // 2. Setup Camera
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 3000);
+            camera.position.z = 1000;
+
+            // 3. Setup Renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            // Set clear color to match background but transparent
+            renderer.setClearColor(0x030308, 0); 
+            container.appendChild(renderer.domElement);
+
+            // Create a programmatic glowing circle texture for the particles
+            const canvas = document.createElement('canvas');
+            canvas.width = 128;
+            canvas.height = 128;
+            const context = canvas.getContext('2d');
+            
+            // Draw radial gradient for soft glow
+            const gradient = context.createRadialGradient(64, 64, 0, 64, 64, 64);
+            gradient.addColorStop(0, 'rgba(255,255,255,1)');
+            gradient.addColorStop(0.2, 'rgba(255,255,255,0.8)');
+            gradient.addColorStop(0.5, 'rgba(255,255,255,0.2)');
+            gradient.addColorStop(1, 'rgba(0,0,0,0)');
+            
+            context.fillStyle = gradient;
+            context.fillRect(0, 0, 128, 128);
+            
+            const texture = new THREE.CanvasTexture(canvas);
+
+            // 4. Create Particle Geometry
+            const geometry = new THREE.BufferGeometry();
+            const particleCount = 15000; // Dense enough to look premium, light enough to run smoothly
+
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+
+            const color1 = new THREE.Color(0x00f0ff); // Neon Blue
+            const color2 = new THREE.Color(0x8a2be2); // Deep Purple
+            const color3 = new THREE.Color(0xff00ff); // Magenta
+
+            // Generate points in a complex, twisting torus/galaxy shape
+            for (let i = 0; i < particleCount; i++) {
+                // Math for an abstract swirling shape
+                const t = Math.random() * Math.PI * 2;
+                const p = Math.random() * Math.PI * 2;
+                const r = 400 + Math.random() * 200 + Math.sin(t * 4) * 100;
+                
+                const x = r * Math.cos(t) * Math.cos(p);
+                const y = r * Math.sin(t) * Math.cos(p);
+                const z = (r * Math.sin(p)) + (Math.sin(t * 3) * 200); // Add wave to Z
+
+                positions[i * 3] = x;
+                positions[i * 3 + 1] = y;
+                positions[i * 3 + 2] = z;
+
+                // Color assignment based on position to create gradients
+                const mixedColor = color1.clone();
+                const mixRatio = (Math.sin(t) + 1) / 2;
+                
+                if (Math.random() > 0.5) {
+                    mixedColor.lerp(color2, mixRatio + (Math.random() * 0.2));
+                } else {
+                    mixedColor.lerp(color3, mixRatio + (Math.random() * 0.2));
+                }
+
+                colors[i * 3] = mixedColor.r;
+                colors[i * 3 + 1] = mixedColor.g;
+                colors[i * 3 + 2] = mixedColor.b;
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            // 5. Create Material
+            const material = new THREE.PointsMaterial({
+                size: 8,
+                map: texture,
+                vertexColors: true,
+                blending: THREE.AdditiveBlending, // Key to making them glow brightly when overlapping
+                depthWrite: false, // Prevents particles from hiding each other incorrectly
+                transparent: true,
+                opacity: 0.8
+            });
+
+            // 6. Assemble and Add to Scene
+            particles = new THREE.Points(geometry, material);
+            // Slight tilt for better perspective
+            particles.rotation.x = Math.PI / 4; 
+            scene.add(particles);
+
+            // Event Listeners
+            document.addEventListener('mousemove', onDocumentMouseMove, false);
+            // Touch support for mobile
+            document.addEventListener('touchstart', onDocumentTouchStart, false);
+            document.addEventListener('touchmove', onDocumentTouchMove, false);
+            window.addEventListener('resize', onWindowResize, false);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function onDocumentMouseMove(event) {
+            // Normalize mouse coordinates from -1 to 1 based on center of screen
+            mouseX = (event.clientX - windowHalfX) * 0.5;
+            mouseY = (event.clientY - windowHalfY) * 0.5;
+        }
+
+        function onDocumentTouchStart(event) {
+            if (event.touches.length === 1) {
+                mouseX = (event.touches[0].pageX - windowHalfX) * 0.5;
+                mouseY = (event.touches[0].pageY - windowHalfY) * 0.5;
+            }
+        }
+
+        function onDocumentTouchMove(event) {
+            if (event.touches.length === 1) {
+                mouseX = (event.touches[0].pageX - windowHalfX) * 0.5;
+                mouseY = (event.touches[0].pageY - windowHalfY) * 0.5;
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            render();
+        }
+
+        function render() {
+            const time = Date.now() * 0.00005;
+
+            // Smooth parallax interpolation
+            targetX = mouseX * 0.5;
+            targetY = mouseY * 0.5;
+            
+            camera.position.x += (targetX - camera.position.x) * 0.02;
+            camera.position.y += (-targetY - camera.position.y) * 0.02;
+            camera.lookAt(scene.position);
+
+            // Slowly rotate the entire particle system
+            particles.rotation.y = time;
+            particles.rotation.z = time * 0.5;
+
+            renderer.render(scene, camera);
+        }
+    </script>
+</body>
+</html>

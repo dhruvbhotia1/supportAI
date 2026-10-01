@@ -1,7 +1,8 @@
 "use client"
 
 import {HomeClient} from "@/components/home/HomeClient";
-import {authClient} from "@/lib/auth-client";
+import { authClient } from "@/lib/auth-client";
+import ParticleBackground from "@/components/ParticleBackground";
 
 export default function Home() {
 
@@ -11,7 +12,8 @@ export default function Home() {
 
 
     return (
-    <>
+      <>
+        <ParticleBackground/>
       <HomeClient userId={session?.user?.id}/>
     </>
   )
