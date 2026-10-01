@@ -502,7 +502,7 @@ export default function BinaryPortalBackground() {
   return (
       <div
           ref={mountRef}
-          className="absolute inset-0 -z-10 h-screen w-full overflow-hidden bg-black"
+          className="fixed inset-0 -z-10 h-screen w-screen overflow-hidden bg-[#030308] pointer-events-none"
       />
   );
 }
