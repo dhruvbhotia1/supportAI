@@ -14,7 +14,7 @@ interface Props {
 
 export default async function VerifyLayout({ children }: Props) {
 
-    
+
 
     return (
         <div className={"relative flex min-h-svh items-center justify-center"}>

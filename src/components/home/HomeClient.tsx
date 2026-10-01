@@ -19,7 +19,7 @@ export const HomeClient = ({userId} : Props) => {
     <div className="min-h-screen overflow-x-hidden">
 
       <motion.div className="fixed top-0 left-0 w-full z-50 backdrop-blur-xl border-b" initial={{ y: -80 }} animate={{ y: 0 }} transition={{duration: 0.5}}>
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between bg-transparent">
 
           <div className="text-lg font-semibold tracking-tight flex items-center cursor-pointer" onClick={() => router.push("/")}>
             <Image src="./logo.svg" height={35} width={35} alt="logo" className="mr-2"/>
