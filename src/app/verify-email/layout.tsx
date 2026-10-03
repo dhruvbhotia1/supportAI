@@ -5,6 +5,8 @@ import Link from "next/link";
 import { ArrowLeftIcon } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import Image from "next/image";
+import {isUserVerified} from "@/lib/user/isUserVerified";
+import {redirect} from "next/navigation";
 
 
 
@@ -13,6 +15,13 @@ interface Props {
 }
 
 export default async function VerifyLayout({ children }: Props) {
+
+    const data = await isUserVerified();
+
+    if(data.status === "success") {
+
+        redirect("/")
+    }
 
 
 

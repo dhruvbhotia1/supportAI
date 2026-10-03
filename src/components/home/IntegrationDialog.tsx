@@ -1,9 +1,9 @@
 export function IntegrationDialog() {
 
     return (
-        <section className={"py-24 border-t border-white/5"}>
+        <section className={"py-24 border-t border-white/5 mx-auto"}>
 
-            <div className={"max-w-8xl mx-auto px-6 flex flex-col md:flex-row items-center gap-16"}>
+            <div className={"max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-16"}>
                 <div className={"flex-1"}>
 
                     <h2 className={"text-3xl md:text-4xl font-medium text-white tracking-tight mb-6"}>
@@ -44,9 +44,6 @@ export function IntegrationDialog() {
                             </div>
                             Auto-resolve tickets
                         </div>
-
-
-
 
                     </div>
 

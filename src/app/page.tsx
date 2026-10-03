@@ -7,6 +7,8 @@ import {SocialProof} from "@/components/home/SocialProof";
 import {Features} from "@/components/home/Features";
 import {Hero} from "@/components/home/Hero";
 import {IntegrationDialog} from "@/components/home/IntegrationDialog";
+import {PricingSection} from "@/components/home/PricingSection";
+import {Footer} from "@/components/home/Footer";
 
 export default function Home() {
 
@@ -15,7 +17,7 @@ export default function Home() {
   } = authClient.useSession();
 
   return (
-    <>
+    <main>
 
         <ParticleBackground/>
 
@@ -29,6 +31,10 @@ export default function Home() {
 
         <IntegrationDialog/>
 
-   </>
+        <PricingSection/>
+
+        <Footer/>
+
+   </main>
   )
 }

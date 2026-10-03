@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Hero } from "@/components/home/Hero";
 import ParticleBackground from "../../components/ParticleBackground";
 import {SocialProof} from "@/components/home/SocialProof";
+import Link from "next/link";
 
 
 interface Props {
@@ -23,10 +24,14 @@ export const HomeClient = ({userId} : Props) => {
         <motion.div className="fixed top-0 left-0 w-full z-50 backdrop-blur-xl border-b" initial={{ y: -80 }} animate={{ y: 0 }} transition={{duration: 0.5}}>
             <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between bg-transparent">
 
-                <div className="text-lg font-semibold tracking-tight flex items-center cursor-pointer" onClick={() => router.push("/")}>
-                    <Image src="./logo.svg" height={35} width={35} alt="logo" className="mr-2"/>
-                    <span className="font-bold">Support</span><span>AI</span>
-                </div>
+                <Link href={"/"}>
+
+                    <div className="text-lg font-semibold tracking-tight flex items-center cursor-pointer" onClick={() => router.push("/")}>
+                        <Image src="./logo.svg" height={35} width={35} alt="logo" className="mr-2"/>
+                        <span className="font-bold">Support</span><span>AI</span>
+                    </div>
+
+                </Link>
 
                 <div className={"flex items-center gap-4"}>
                     {

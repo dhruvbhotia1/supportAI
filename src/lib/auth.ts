@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import {prisma} from "@/lib/prisma";
 import {resend} from "@/lib/resend";
+import activation from "@/components/email-templates/activation";
 
 export const auth = betterAuth({
     database: prismaAdapter(prisma, {
@@ -19,7 +20,7 @@ export const auth = betterAuth({
               from: 'Acme <onboarding@resend.dev>',
               to: user.email,
               subject: "Verify your email address",
-              html: `Click ${url} to verify your email address`,
+              react: activation({companyName: "SupportAI", url: url})
 
           });
 
@@ -31,6 +32,18 @@ export const auth = betterAuth({
           console.log("verification awaiting.....")
       },
       sendOnSignUp: true,
+    },
+
+    socialProviders: {
+        github: {
+            clientId: process.env.GITHUB_CLIENT_ID!,
+            clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+        },
+
+        google: {
+            clientId: process.env.GOOGLE_CLIENT_ID!,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+        }
     }
 
 });

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowLeftIcon } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import Image from "next/image";
-import {getServerSession} from "@/hooks/user/getServerSession";
+import {getServerSession} from "@/lib/user/getServerSession";
 import {redirect} from "next/navigation";
 
 

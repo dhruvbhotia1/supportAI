@@ -1,5 +1,6 @@
 import { VerifyEmailComponent } from "@/components/auth/verify-email"
-import {getServerSession} from "@/hooks/user/getServerSession";
+import {getServerSession} from "@/lib/user/getServerSession";
+import ParticleBackground from "@/components/ParticleBackground";
 
 export default async function VerifyEmailPage() {
 
@@ -14,6 +15,7 @@ export default async function VerifyEmailPage() {
 
   return (
     <>
+        <ParticleBackground/>
         {
             data ? (
                 <VerifyEmailComponent email={email}/>

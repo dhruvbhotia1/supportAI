@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight } from "lucide-react";
 import { FloatingDemo } from "./FloatingDemo";
-import {SocialProof} from "@/components/home/SocialProof";
 
 export function Hero() {
   return (
