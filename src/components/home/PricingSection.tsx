@@ -31,7 +31,7 @@ export function PricingSection() {
 
                     </div>
 
-                    <ul className={"space-y-3 b-8 text-sm text-zinc-300 font-light w-full"}>
+                    <ul className={"space-y-3 b-8 text-sm text-zinc-300 font-medium w-full"}>
 
                         <li className={"flex items-center gap-3"}>
                             <Check className={"w-4 h-4 text-zinc-600"}/> 100 conversation/month
@@ -65,7 +65,7 @@ export function PricingSection() {
 
                     </div>
 
-                    <ul className={"space-y-3 b-8 text-sm text-zinc-300 font-light w-full"}>
+                    <ul className={"space-y-3 b-8 text-sm text-zinc-300 font-medium w-full"}>
 
                         <li className={"flex items-center gap-3"}>
                             <Check className={"w-4 h-4 text-zinc-600"}/> 1000 conversation/month
@@ -99,7 +99,7 @@ export function PricingSection() {
 
                     </div>
 
-                    <ul className={"space-y-3 b-8 text-sm text-zinc-300 font-light w-full"}>
+                    <ul className={"space-y-3 b-8 text-sm text-zinc-300 font-medium w-full"}>
 
                         <li className={"flex items-center gap-3"}>
                             <Check className={"w-4 h-4 text-zinc-600"}/> 10000 conversation/month
