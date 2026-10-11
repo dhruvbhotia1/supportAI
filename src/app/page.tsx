@@ -21,7 +21,7 @@ export default function Home() {
 
         <ParticleBackground/>
 
-        <HomeClient userId={session?.user?.id} />
+        <HomeClient user={session?.user}/>
 
         <Hero/>
 

@@ -3,20 +3,18 @@ import { motion } from "motion/react"
 import {useRouter} from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
-import { Hero } from "@/components/home/Hero";
-import ParticleBackground from "../../components/ParticleBackground";
-import {SocialProof} from "@/components/home/SocialProof";
 import Link from "next/link";
-
+import {NavUser} from "@/components/home/NavUserButton";
 
 interface Props {
 
-    userId: string | undefined;
+    user: typeof authClient.$Infer.Session.user | undefined;
+
 }
 
-export const HomeClient = ({userId} : Props) => {
+export const HomeClient = ({user}: Props) => {
 
-  const router = useRouter();
+    const router = useRouter();
 
   return (
     <div className="overflow-x-hidden">
@@ -35,14 +33,12 @@ export const HomeClient = ({userId} : Props) => {
 
                 <div className={"flex items-center gap-4"}>
                     {
-                        userId ? (
+                        user ? (
 
-                            <motion.button className="px-5 py-2 rounded-full bg-zinc-800 text-white text-sm font-semibold hover:bg-zinc-800 transition disabled:opacity-60 flex items-center gap-2 cursor-pointer" onClick={() => authClient.signOut()}>
-                                Sign Out
-                            </motion.button>
+                            <NavUser user={user}/>
 
                         ) : (
-                            <motion.button className="px-5 py-2 rounded-full bg-black text-white text-sm font-medium hover:bg-zinc-800 transition disabled:opacity-60 flex items-center gap-2 cursor-pointer" onClick={() => router.push("/sign-in")}>
+                            <motion.button className="px-5 py-2 rounded-full text-white text-sm font-medium hover:bg-zinc-800 transition disabled:opacity-60 flex items-center gap-2 cursor-pointer" onClick={() => router.push("/sign-in")}>
                                 Get Started
                             </motion.button>
                         )

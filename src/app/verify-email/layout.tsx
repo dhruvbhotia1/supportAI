@@ -1,14 +1,10 @@
-//sign-in page layout.
-
 import { ReactNode } from "react";
 import Link from "next/link";
 import { ArrowLeftIcon } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import Image from "next/image";
-import {isUserVerified} from "@/lib/user/isUserVerified";
 import {redirect} from "next/navigation";
-
-
+import {getServerSession} from "@/lib/user/getServerSession";
 
 interface Props {
     children: ReactNode;
@@ -16,13 +12,20 @@ interface Props {
 
 export default async function VerifyLayout({ children }: Props) {
 
-    const data = await isUserVerified();
+
+    const data = await getServerSession();
 
     if(data.status === "success") {
 
-        redirect("/")
-    }
+        if(data.data?.user.emailVerified) {
 
+            redirect("/");
+        }
+
+    } else {
+
+        redirect("/login");
+    }
 
 
     return (

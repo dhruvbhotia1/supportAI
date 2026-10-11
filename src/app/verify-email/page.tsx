@@ -1,17 +1,17 @@
-import { VerifyEmailComponent } from "@/components/auth/verify-email"
-import {getServerSession} from "@/lib/user/getServerSession";
+"use client"
+import { VerifyEmailComponent } from "@/components/auth/verify-email-component"
 import ParticleBackground from "@/components/ParticleBackground";
+import {authClient} from "@/lib/auth-client";
 
-export default async function VerifyEmailPage() {
+export default function VerifyEmailPage() {
 
-    const data = await getServerSession();
 
-    let email: string = "";
+    const {data} = authClient.useSession();
 
-    if(data.status == "success") {
+    let email : string = "";
 
-        email = data.data?.user.email as string;
-    }
+    email = data?.user.email as string;
+
 
   return (
     <>
@@ -21,6 +21,7 @@ export default async function VerifyEmailPage() {
                 <VerifyEmailComponent email={email}/>
             ) : (
                 <div>
+
                     INTERNAL_SERVER_ERROR.
 
                 </div>

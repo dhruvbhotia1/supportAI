@@ -17,17 +17,17 @@ import {
     Tailwind,
     Text,
 } from 'react-email';
-import { barebonesBoxedTailwindConfig } from './theme';
-import { BarebonesFonts } from './theme-fonts';
+import { barebonesBoxedTailwindConfig } from './Theme';
+import { BarebonesFonts } from './ThemeFonts';
 
 const baseUrl = "https://raw.githubusercontent.com/dhruvbhotia1/supportAI/09fbdb81e9560d8f9e9a5b42fc1c6b0fc7ede034/public/logo.svg"
 
-interface ConfirmEmailProps {
+interface OTPVerificationTemplateProps {
     companyName: string;
-    url: string;
+    otp: string
 }
 
-export const ConfirmEmail = ({ companyName, url }: ConfirmEmailProps) => (
+export const OTPVerificationTemplate = ({ companyName, otp }: OTPVerificationTemplateProps) => (
     <Tailwind config={barebonesBoxedTailwindConfig}>
         <Html>
             <Head>
@@ -83,10 +83,10 @@ export const ConfirmEmail = ({ companyName, url }: ConfirmEmailProps) => (
 
                                 <Section className="mb-6 text-center">
                                     <Button
-                                        href={url}
+                                        onClick={async () => await navigator.clipboard.writeText(otp)}
                                         className="bg-fg font-16 text-fg-inverted inline-block rounded-lg px-7 py-4 text-center font-sans leading-6"
                                     >
-                                        Confirm email
+                                        {otp}
                                     </Button>
                                 </Section>
 
@@ -175,9 +175,9 @@ export const ConfirmEmail = ({ companyName, url }: ConfirmEmailProps) => (
     </Tailwind>
 );
 
-ConfirmEmail.PreviewProps = {
+OTPVerificationTemplate.PreviewProps = {
     companyName: 'Barebones',
-    url: 'https://example.com/',
-} satisfies ConfirmEmailProps;
+    otp: "000000"
+} satisfies OTPVerificationTemplateProps;
 
-export default ConfirmEmail;
+export default OTPVerificationTemplate;

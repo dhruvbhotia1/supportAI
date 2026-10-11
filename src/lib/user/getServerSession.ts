@@ -1,5 +1,3 @@
-
-import "server-only"
 import {cache} from "react";
 import {ApiResponse} from "@/lib/types/ApiResponse";
 import {auth} from "@/lib/auth";
