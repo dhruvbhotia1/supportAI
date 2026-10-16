@@ -77,15 +77,62 @@ model Verification {
 }
 
 model Metadata {
-  id            String   @id @default(uuid(7))
-  email         String
-  user          User     @relation(fields: [email], references: [email], onDelete: Cascade, onUpdate: Cascade)
-  business_name String
-  website_url   String
-  externalLinks String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id                   String          @id @default(uuid(7))
+  email                String
+  user                 User            @relation(fields: [email], references: [email], onDelete: Cascade, onUpdate: Cascade)
+  business_name        String
+  business_type        String
+  business_description String
+  website_url          String
+  external_links       String?
+  assistant_name       String          @default("Beetle")
+  assistant_tone       Assistant_Tone  @default(Friendly)
+  assistant_theme      Assistant_Theme @default(Dark)
+  enable_voice         Boolean         @default(true)
+  pages                ScrapePage      @relation(fields: [website_url], references: [website_url], onDelete: Cascade)
+  enableNavigation     Boolean         @default(true)
+  ai_api_key           String
+  ai_api_status        Api_Status      @default(Inactive)
+  total_message        Number          @default(0)
+  plan                 Plan            @default(Free)
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
 
   @@index([email])
   @@map("metadata")
+}
+
+enum Plan
+{
+Free
+Starter
+Pro
+}
+
+enum Api_Status
+{
+Active
+Inactive
+}
+
+enum Assistant_Tone
+{
+Friendly
+Professional
+Sales
+}
+
+enum Assistant_Theme
+{
+Light
+Dark
+Glass
+Neon
+}
+
+model ScrapePage {
+  website_url String
+  name        String
+  path        String
+  keywords    String[] @default([])
 }

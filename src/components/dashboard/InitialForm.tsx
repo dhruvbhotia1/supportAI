@@ -17,6 +17,11 @@ interface InitialData {
     externalLinks: string,
 }
 
+interface Props {
+
+    user: typeof authClient.$Infer.Session.user
+}
+
 
 const STEPS =  [
 
@@ -50,11 +55,9 @@ const STEPS =  [
     },
 ]
 
-export function InitialForm() {
+export function InitialForm({user}: Props) {
 
-    const {data: session} = authClient.useSession();
-
-    const email = session?.user.email as string;
+    const email = user.email as string;
 
     const [currentStep, setCurrentStep] = useState<number>(0)
     const [isAnimating, setIsAnimating] = useState<boolean>(false)
